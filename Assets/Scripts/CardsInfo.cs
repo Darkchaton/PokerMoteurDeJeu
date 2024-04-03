@@ -51,7 +51,7 @@ public class CardsInfo : MonoBehaviour
         string cheminImage = carte.valeur.ToString() + "_" + carte.couleur.ToString();
          
         Debug.Log(cheminImage);
-
+         
         spriteRenderer.sprite = Resources.Load<Sprite>(cheminImage); 
     }
 }

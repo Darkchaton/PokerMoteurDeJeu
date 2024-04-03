@@ -8,6 +8,7 @@ public class ScriptBoutonGenerer : MonoBehaviour
 {
     public GameObject[] cartes; // Tableau d'objets carte à modifier
     public Carte[] toutesLesCartes; // Tableau de toutes les cartes disponibles
+    public AudioSource audioSource;
 
     void Start()
     {
@@ -16,6 +17,9 @@ public class ScriptBoutonGenerer : MonoBehaviour
 
     public void GenererCartes()
     {
+        //Joue le son de brassage de cartes 
+        audioSource.Play();
+
         // Pour chaque objet carte dans le tableau
         foreach (GameObject carteObjet in cartes)
         {
@@ -26,7 +30,7 @@ public class ScriptBoutonGenerer : MonoBehaviour
             CardsInfo scriptCarte = carteObjet.GetComponent<CardsInfo>();
 
             // Applique la valeur et la couleur de la carte aléatoire
-            scriptCarte.AppliquerCarte(carteAleatoire);
+            scriptCarte.AppliquerCarte(carteAleatoire); 
         }
     }
 
@@ -46,6 +50,5 @@ public class ScriptBoutonGenerer : MonoBehaviour
             }
         }
         Debug.Log(toutesLesCartes); 
-    }
-
+    } 
 }
