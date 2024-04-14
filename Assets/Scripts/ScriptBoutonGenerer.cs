@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using static CardsInfo;
@@ -9,28 +11,45 @@ public class ScriptBoutonGenerer : MonoBehaviour
     public GameObject[] cartes; // Tableau d'objets carte à modifier
     public Carte[] toutesLesCartes; // Tableau de toutes les cartes disponibles
     public AudioSource audioSource;
+    public Button generateButton;
+    public TextMeshProUGUI premierTexte;
+    public TextMeshProUGUI deuxiemeTexte;
+    private int clickCount = 0;
+    public int maxClicks = 3; 
 
     void Start()
-    {
+    { 
         GenererToutesLesCartes();
     }
 
     public void GenererCartes()
     {
-        //Joue le son de brassage de cartes 
-        audioSource.Play();
-
-        // Pour chaque objet carte dans le tableau
-        foreach (GameObject carteObjet in cartes)
+        if (clickCount < maxClicks)
         {
-            // Sélectionne une carte au hasard
-            Carte carteAleatoire = toutesLesCartes[Random.Range(0, toutesLesCartes.Length)];
+            //Son de brassage de cartes 
+            audioSource.Play();
 
-            // Chercher le script de la carte
-            CardsInfo scriptCarte = carteObjet.GetComponent<CardsInfo>();
+            clickCount++; 
+             
+            foreach (GameObject carteObjet in cartes)
+            { 
+                //Random
+                Carte carteAleatoire = toutesLesCartes[Random.Range(0, toutesLesCartes.Length)];
 
-            // Applique la valeur et la couleur de la carte aléatoire
-            scriptCarte.AppliquerCarte(carteAleatoire); 
+                // Chercher le script de la carte
+                CardsInfo scriptCarte = carteObjet.GetComponent<CardsInfo>();
+
+                // Applique la valeur et la couleur de la carte aléatoire
+                scriptCarte.AppliquerCarte(carteAleatoire);
+            }
+ 
+            if (clickCount >= maxClicks) //Désactiver Bouton Générer après 3 fois
+            { 
+                generateButton.enabled = false;
+
+                premierTexte.gameObject.SetActive(false);
+                deuxiemeTexte.gameObject.SetActive(true);
+            }
         }
     }
 
@@ -42,13 +61,11 @@ public class ScriptBoutonGenerer : MonoBehaviour
         foreach (CardsInfo.ValeurCarte valeur in System.Enum.GetValues(typeof(CardsInfo.ValeurCarte)))
         {
             foreach (CardsInfo.CouleurCarte couleur in System.Enum.GetValues(typeof(CardsInfo.CouleurCarte)))
-            {
-                // Création d'une nouvelle carte pour chaque combinaison de valeur et de couleur
+            { 
                 toutesLesCartes[index] = new Carte(valeur, couleur);
                 Debug.Log(valeur + "," + couleur); 
                 index++;
             }
-        }
-        Debug.Log(toutesLesCartes); 
+        } 
     } 
 }

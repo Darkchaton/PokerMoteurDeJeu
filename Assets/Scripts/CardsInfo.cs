@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using UnityEngine.EventSystems;
 
-public class CardsInfo : MonoBehaviour
+public class CardsInfo : MonoBehaviour 
 { 
-    public SpriteRenderer spriteRenderer; // Référence au SpriteRenderer pour l'image de la carte
+    public SpriteRenderer spriteRenderer; // Ref au SpriteRenderer de la carte
+    public TextMeshProUGUI garderText; //Ref au texte Changer
 
     public enum ValeurCarte
     {
@@ -23,7 +26,6 @@ public class CardsInfo : MonoBehaviour
         Dame,
         Roi
     }
-
     public enum CouleurCarte
     {
         Pique,
@@ -32,13 +34,11 @@ public class CardsInfo : MonoBehaviour
         Carreau
     }
 
-    public class Carte  // Classe représentant une carte
+    public class Carte  
     {
         public ValeurCarte valeur;
-        public CouleurCarte couleur;
-
-        // Constructeur = initialiser les valeurs de la carte en elle-même
-        public Carte(ValeurCarte valeur, CouleurCarte couleur)
+        public CouleurCarte couleur; 
+        public Carte(ValeurCarte valeur, CouleurCarte couleur) //Constructeur
         {
             this.valeur = valeur;
             this.couleur = couleur;
@@ -46,12 +46,30 @@ public class CardsInfo : MonoBehaviour
     }
 
     public void AppliquerCarte(Carte carte)
-    {  
-        // Charge l'image de la carte appropriée en fonction de sa valeur et sa couleur
+    {   
         string cheminImage = carte.valeur.ToString() + "_" + carte.couleur.ToString();
          
-        Debug.Log(cheminImage);
-         
         spriteRenderer.sprite = Resources.Load<Sprite>(cheminImage); 
+    } 
+
+    private void OnMouseEnter()
+    { 
+        garderText.gameObject.SetActive(true);
+    } 
+    private void OnMouseExit()
+    { 
+        garderText.gameObject.SetActive(false);
+    }
+
+    //private void OnMouseUp()
+    //{
+    //    Debug.Log("Carte gardée");
+    //    garderText.gameObject.SetActive(true);
+    //}
+
+    public void Clique()
+    {
+        Debug.Log("Carte gardée");
+        garderText.gameObject.SetActive(true);
     }
 }
