@@ -61,6 +61,8 @@ public class CardsInfo : MonoBehaviour
         garderText.gameObject.SetActive(false);
     }
 
+    //Note: Quand le joueur appuie sur Garder et qu'il réappuie sur générer, il faut que les cartes gardées restent
+
     //private void OnMouseUp()
     //{
     //    Debug.Log("Carte gardée");
