@@ -10,7 +10,8 @@ public class SoumettreButtonScript : MonoBehaviour
     public GameObject[] cartes; // Tableau d'objets carte à modifier
     public Carte[] toutesLesCartes; // Tableau de toutes les cartes disponibles
     public AudioSource audioSource;
-    public Button soumettreButton; 
+    public Button soumettreButton;
+    public Image EcranContinuation;
     private int clickCount = 0;
     public int ClickOnce = 1;
 
@@ -41,7 +42,9 @@ public class SoumettreButtonScript : MonoBehaviour
 
             if (clickCount >= ClickOnce)  
             {
-                soumettreButton.enabled = false; 
+                soumettreButton.enabled = false;
+
+                EcranContinuation.gameObject.SetActive(true);
             }
         }
     }
