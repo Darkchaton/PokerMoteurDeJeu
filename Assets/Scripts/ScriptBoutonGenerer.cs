@@ -15,7 +15,8 @@ public class ScriptBoutonGenerer : MonoBehaviour
     public TextMeshProUGUI premierTexte;
     public TextMeshProUGUI deuxiemeTexte;
     private int clickCount = 0;
-    public int maxClicks = 3; 
+    public int maxClicks = 3;
+    private HashSet<Carte> cartesSelectionnees = new HashSet<Carte>(); //Éviter les doublons de cartes
 
     void Start()
     { 
@@ -31,17 +32,23 @@ public class ScriptBoutonGenerer : MonoBehaviour
 
             clickCount++; 
              
-            foreach (GameObject carteObjet in cartes)
-            { 
-                //Random
-                Carte carteAleatoire = toutesLesCartes[Random.Range(0, toutesLesCartes.Length)];
+            foreach (GameObject carteObjet in cartes) 
+            {
+                Carte carteAleatoire;
+                do
+                { 
+                    carteAleatoire = toutesLesCartes[Random.Range(0, toutesLesCartes.Length)];
+                }
+                while (cartesSelectionnees.Contains(carteAleatoire));
+
+                cartesSelectionnees.Add(carteAleatoire); 
 
                 // Chercher le script de la carte
                 CardsInfo scriptCarte = carteObjet.GetComponent<CardsInfo>();
 
                 // Applique la valeur et la couleur de la carte aléatoire
                 scriptCarte.AppliquerCarte(carteAleatoire);
-            }
+            } 
  
             if (clickCount >= maxClicks) //Désactiver Bouton Générer après 3 fois
             { 

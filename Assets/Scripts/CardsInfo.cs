@@ -9,6 +9,14 @@ public class CardsInfo : MonoBehaviour
 { 
     public SpriteRenderer spriteRenderer; // Ref au SpriteRenderer de la carte
     public TextMeshProUGUI garderText; //Ref au texte Changer
+    private bool carteActive = false;
+    private static int nombreCartesGardees = 0;
+    private const int nombreCartesMaxGardees = 3; 
+
+    void Start()
+    {
+        nombreCartesGardees = 0;
+    }
 
     public enum ValeurCarte
     {
@@ -47,31 +55,43 @@ public class CardsInfo : MonoBehaviour
 
     public void AppliquerCarte(Carte carte)
     {   
-        string cheminImage = carte.valeur.ToString() + "_" + carte.couleur.ToString();
-         
+        string cheminImage = carte.valeur.ToString() + "_" + carte.couleur.ToString(); 
         spriteRenderer.sprite = Resources.Load<Sprite>(cheminImage); 
     } 
 
     private void OnMouseEnter()
-    { 
-        garderText.gameObject.SetActive(true);
-    } 
-    private void OnMouseExit()
-    { 
-        garderText.gameObject.SetActive(false);
-    }
-
-    //Note: Quand le joueur appuie sur Garder et qu'il réappuie sur générer, il faut que les cartes gardées restent
-
-    //private void OnMouseUp()
-    //{
-    //    Debug.Log("Carte gardée");
-    //    garderText.gameObject.SetActive(true);
-    //}
-
-    public void Clique()
     {
-        Debug.Log("Carte gardée");
-        garderText.gameObject.SetActive(true);
+        if (nombreCartesGardees < nombreCartesMaxGardees)
+        {  
+            garderText.gameObject.SetActive(true);
+        }
+    } 
+
+    private void OnMouseDown()
+    {  
+        if (carteActive)
+        {
+            carteActive = false;
+            nombreCartesGardees--;
+            garderText.gameObject.SetActive(false);
+        }
+        else
+        {
+            if (nombreCartesGardees < nombreCartesMaxGardees)
+            {
+                carteActive = true;
+                nombreCartesGardees++;
+                garderText.gameObject.SetActive(true);
+            }
+        }
+    } 
+
+    private void OnMouseExit()
+    {
+        if (!carteActive)
+        {
+            garderText.gameObject.SetActive(false);
+        } 
     }
+    
 }
