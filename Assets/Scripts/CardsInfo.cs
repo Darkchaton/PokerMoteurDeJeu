@@ -84,7 +84,7 @@ public class CardsInfo : MonoBehaviour
     {  
         if (carteActive)
         {
-            if (nombreCartesGardees < nombreCartesMaxGardees)
+            if (nombreCartesGardees <= nombreCartesMaxGardees)
             {
                 carteActive = false;
                 nombreCartesGardees--;
@@ -108,6 +108,5 @@ public class CardsInfo : MonoBehaviour
         {
             garderText.gameObject.SetActive(false);
         } 
-    }
-    
+    } 
 }
