@@ -18,13 +18,20 @@ public class ScriptBoutonGenerer : MonoBehaviour
 
     public int clickCount = 0;
     public int maxClicks = 3; 
-    public HashSet<Carte> cartesSelectionnees = new HashSet<Carte>(); //Éviter les doublons de cartes  
-
+    public HashSet<Carte> cartesSelectionnees = new HashSet<Carte>(); //Éviter les doublons de cartes   
 
     void Start()
     { 
         GenererToutesLesCartes();
     } 
+
+    public void recommencerClicks()
+    {
+        clickCount = 0;
+        generateButton.interactable = true;
+        //premierTexte.gameObject.SetActive(true);
+        //deuxiemeTexte.gameObject.SetActive(false);
+    }
 
     public void GenererCartes()
     {
@@ -88,8 +95,6 @@ public class ScriptBoutonGenerer : MonoBehaviour
             }
         }
     }
-
-   
 
 }
 

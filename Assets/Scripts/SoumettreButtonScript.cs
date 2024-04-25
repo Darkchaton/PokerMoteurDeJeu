@@ -20,6 +20,7 @@ public class SoumettreButtonScript : MonoBehaviour
     public int ClickOnce = 1;
 
     public ScriptBoutonGenerer scriptBoutonGenerer;
+    public MagasinItemScript magasinItemScript;
 
     bool JoueurAeuCouleur = false; //
     bool JoueurAeuPaire = false; //
@@ -30,14 +31,61 @@ public class SoumettreButtonScript : MonoBehaviour
     bool JoueurAeuFull = false;
 
     public TextMeshProUGUI textePiecesOr;
-    private int piecesOr = 0;
-    private int piecesOrGagnees = 0; 
+    public int piecesOr = 0;
+    private int piecesOrGagnees = 0;
+
+    public int nbrItemsItemUn = 0;
+    public int nbrItemsItemDeux = 0;
+    public int nbrItemsReliqueUn = 0;
+    public int nbrItemsReliqueDeux = 0;
+    bool ItemUnMarche = false;
+    //bool ItemDeuxMarche = false;
+    //bool ReliqueUnMarche = false;
+    //bool ReliqueDeuxMarche = false;
+
 
     void Start()
     {
         GenererToutesLesCartesEnnemies();
         scriptBoutonGenerer = FindObjectOfType<ScriptBoutonGenerer>();
-    } 
+    }
+
+    public void MettreAJourNbrItems(int typeItem)
+    {  
+        switch (typeItem)
+        {
+            case 1:
+                nbrItemsItemUn++;
+                break;
+            case 2:
+                nbrItemsItemDeux++;
+                break;
+            case 3:
+                nbrItemsReliqueUn++;
+                break;
+            case 4:
+                nbrItemsReliqueDeux++;
+                break; 
+        }
+    }
+
+    public void UtiliserItems()
+    {
+        if (nbrItemsItemUn == 1)
+        {
+            ItemUnMarche = true;
+        }
+        else
+        {
+            ItemUnMarche = false;
+        }
+        //if(nbrItemsItemDeux == 1)
+        //{ }
+        //if(nbrItemsReliqueUn == 1)
+        //{ }
+        //if(nbrItemsReliqueDeux == 1)
+        //{  }
+    }
 
     public void GenererCartes() //Est appelé dans Unity
     {
@@ -55,11 +103,11 @@ public class SoumettreButtonScript : MonoBehaviour
 
             if (clickCount >= ClickOnce)  
             {
-                soumettreButton.enabled = false;
-
+                soumettreButton.enabled = false; 
                 EcranContinuation.gameObject.SetActive(true);
             } 
         }
+         UtiliserItems();
          VerifierMemeValeur();  
          VerifierMemeValeurTroisFois();
          VerifierFull();
@@ -75,13 +123,32 @@ public class SoumettreButtonScript : MonoBehaviour
             textePiecesOr.text = piecesOr.ToString();
             piecesOrGagnees = 5;
             textePiecesOrGagnees.text = piecesOrGagnees.ToString();
+
+            if(ItemUnMarche == true)
+            {
+                piecesOr += 10;
+                textePiecesOr.text = piecesOr.ToString();
+                piecesOrGagnees = 15;
+                textePiecesOrGagnees.text = piecesOrGagnees.ToString();
+                nbrItemsItemUn--;
+                magasinItemScript.texteNbrItemsReliques[0].text = nbrItemsItemUn.ToString();
+            }
         }
         if (JoueurAeuBrelan == true)
         {
             piecesOr += 10; 
             textePiecesOr.text = piecesOr.ToString();
             piecesOrGagnees = 10;
-            textePiecesOrGagnees.text = piecesOrGagnees.ToString(); 
+            textePiecesOrGagnees.text = piecesOrGagnees.ToString();
+
+            if (ItemUnMarche == true)
+            {
+                piecesOr += 20;
+                textePiecesOr.text = piecesOr.ToString();
+                piecesOrGagnees = 30;
+                textePiecesOrGagnees.text = piecesOrGagnees.ToString();
+                nbrItemsItemUn--;
+            }
         }
         if (JoueurAeuCarre == true)
         {
@@ -89,6 +156,15 @@ public class SoumettreButtonScript : MonoBehaviour
             textePiecesOr.text = piecesOr.ToString();
             piecesOrGagnees = 10;
             textePiecesOrGagnees.text = piecesOrGagnees.ToString();
+
+            if (ItemUnMarche == true)
+            {
+                piecesOr += 30; //Comme ça ça donne 45 donc trois fois 15
+                textePiecesOr.text = piecesOr.ToString();
+                piecesOrGagnees = 45;
+                textePiecesOrGagnees.text = piecesOrGagnees.ToString();
+                nbrItemsItemUn--;
+            }
         }
         if (JoueurAeuFull == true)
         {
@@ -96,6 +172,15 @@ public class SoumettreButtonScript : MonoBehaviour
             textePiecesOr.text = piecesOr.ToString();
             piecesOrGagnees = 20;
             textePiecesOrGagnees.text = piecesOrGagnees.ToString();
+
+            if (ItemUnMarche == true)
+            {
+                piecesOr += 40;
+                textePiecesOr.text = piecesOr.ToString();
+                piecesOrGagnees = 60;
+                textePiecesOrGagnees.text = piecesOrGagnees.ToString();
+                nbrItemsItemUn--;
+            }
         }
         if (JoueurAeuDeuxPaires == true)
         {
@@ -103,6 +188,14 @@ public class SoumettreButtonScript : MonoBehaviour
             textePiecesOr.text = piecesOr.ToString();
             piecesOrGagnees = 15;
             textePiecesOrGagnees.text = piecesOrGagnees.ToString();
+
+            if (ItemUnMarche == true)
+            {
+                piecesOr += 30;
+                textePiecesOr.text = piecesOr.ToString();
+                piecesOrGagnees = 45;
+                textePiecesOrGagnees.text = piecesOrGagnees.ToString();
+            }
         }
         if (JoueurAeuSuite == true)
         {
@@ -110,6 +203,14 @@ public class SoumettreButtonScript : MonoBehaviour
             textePiecesOr.text = piecesOr.ToString();
             piecesOrGagnees = 30;
             textePiecesOrGagnees.text = piecesOrGagnees.ToString();
+
+            if (ItemUnMarche == true)
+            {
+                piecesOr += 60;
+                textePiecesOr.text = piecesOr.ToString();
+                piecesOrGagnees = 90;
+                textePiecesOrGagnees.text = piecesOrGagnees.ToString();
+            }
         }
         if (JoueurAeuCouleur == true)
         {
@@ -117,11 +218,17 @@ public class SoumettreButtonScript : MonoBehaviour
             textePiecesOr.text = piecesOr.ToString();
             piecesOrGagnees = 25;
             textePiecesOrGagnees.text = piecesOrGagnees.ToString();
-        } 
-        
-    }
-   
-     
+
+            if (ItemUnMarche == true)
+            {
+                piecesOr += 50;
+                textePiecesOr.text = piecesOr.ToString();
+                piecesOrGagnees = 75;
+                textePiecesOrGagnees.text = piecesOrGagnees.ToString();
+            }
+        }  
+
+    } 
 
     void GenererToutesLesCartesEnnemies()
         {
@@ -378,9 +485,7 @@ public class SoumettreButtonScript : MonoBehaviour
         piecesOrGagnees = 0; 
         textePiecesOrGagnees.text = "0";
         soumettreButton.enabled = true;
-        scriptBoutonGenerer.generateButton.enabled = true; 
         clickCount = 0;
-        scriptBoutonGenerer.clickCount = 0;
-    } 
-
+        scriptBoutonGenerer.recommencerClicks();
+    }
 }
